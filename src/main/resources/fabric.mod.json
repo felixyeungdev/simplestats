@@ -3,32 +3,23 @@
 	"id": "simple-stats",
 	"version": "${version}",
 	"name": "Simple Stats",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Player statistics viewer",
 	"authors": [
-		"Me!"
+		"William Neild"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://williamneild.com/",
+		"sources": "https://github.com/wsngamerz/simplestats/"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/simple-stats/icon.png",
-	"environment": "*",
+	"environment": "server",
 	"entrypoints": {
 		"main": [
-			"com.williamneild.ExampleMod"
-		],
-		"client": [
-			"com.williamneild.ExampleModClient"
+			"com.williamneild.SimpleStats"
 		]
 	},
-	"mixins": [
-		"simple-stats.mixins.json",
-		{
-			"config": "simple-stats.client.mixins.json",
-			"environment": "client"
-		}
-	],
+	"mixins": [],
 	"depends": {
 		"fabricloader": ">=0.14.21",
 		"minecraft": "~1.20.1",
