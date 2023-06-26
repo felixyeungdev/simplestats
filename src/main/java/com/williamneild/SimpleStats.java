@@ -86,7 +86,7 @@ public class SimpleStats implements ModInitializer {
 
 	private void initialiseWebServer(MinecraftServer minecraftServer) {
 		String serverIp = minecraftServer.getServerIp();
-		int serverPort = 25500;
+		int serverPort = 25503;
 
 		// create the request handler
 		RoutingRequestHandler routingRequestHandler = new RoutingRequestHandler();
