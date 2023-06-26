@@ -38,3 +38,6 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# bundled zip
+src/main/resources/assets/simple-stats/web.zip

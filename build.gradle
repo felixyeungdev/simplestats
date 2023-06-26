@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '1.2-SNAPSHOT'
 	id 'maven-publish'
+	id "com.github.node-gradle.node" version "5.0.0"
 }
 
 version = project.mod_version
@@ -45,16 +46,52 @@ dependencies {
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 }
 
+node {
+	version.set("19.3.0")
+	download.set(true)
+	nodeProjectDir.set(file("src/web/"))
+}
+
 processResources {
 	inputs.property "version", project.version
 
 	filesMatching("fabric.mod.json") {
 		expand "version": project.version
 	}
+
+	dependsOn("zipWeb")
 }
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 17
+}
+
+tasks.register('buildWeb', NpmTask) {
+	doFirst {
+		if (!file("src/web/out/").deleteDir())
+			throw IOException("Failed to delete build directory!")
+	}
+
+	dependsOn("npmInstall")
+	npmCommand = ['run', 'build']
+
+	inputs.dir("src/web/")
+	outputs.dir("src/web/out/")
+}
+
+tasks.register("zipWeb", Zip) {
+	dependsOn ("buildWeb")
+	from (fileTree("src/web/out/"))
+	archiveFileName.set("web.zip")
+	destinationDirectory.set(file("src/main/resources/assets/simple-stats"))
+
+	inputs.dir("src/web/out/")
+	outputs.file("src/main/resources/assets/simple-stats/web.zip")
+}
+
+tasks.register('sourcesJar', Jar) {
+	dependsOn("zipWeb")
+	from sourceSets.main.allSource
 }
 
 java {
